@@ -3,3 +3,8 @@ C:\Users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\ServiceT
 C:\Users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\ServiceTester\obj\x86\Debug\ServiceTester.exe
 C:\Users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\ServiceTester\obj\x86\Debug\ServiceTester.pdb
 C:\Users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\ServiceTester\bin\Debug\ServiceTester.exe.config
+D:\GitHub\web-servisi\Web service\HelloService\ServiceTester\bin\Debug\ServiceTester.exe.config
+D:\GitHub\web-servisi\Web service\HelloService\ServiceTester\bin\Debug\ServiceTester.exe
+D:\GitHub\web-servisi\Web service\HelloService\ServiceTester\bin\Debug\ServiceTester.pdb
+D:\GitHub\web-servisi\Web service\HelloService\ServiceTester\obj\x86\Debug\ServiceTester.exe
+D:\GitHub\web-servisi\Web service\HelloService\ServiceTester\obj\x86\Debug\ServiceTester.pdb

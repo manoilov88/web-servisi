@@ -2,3 +2,7 @@ c:\users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\HelloSer
 c:\users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\HelloService\bin\HelloService.pdb
 c:\users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\HelloService\obj\Debug\HelloService.dll
 c:\users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\HelloService\obj\Debug\HelloService.pdb
+D:\GitHub\web-servisi\Web service\HelloService\HelloService\bin\HelloService.dll
+D:\GitHub\web-servisi\Web service\HelloService\HelloService\bin\HelloService.pdb
+D:\GitHub\web-servisi\Web service\HelloService\HelloService\obj\Debug\HelloService.dll
+D:\GitHub\web-servisi\Web service\HelloService\HelloService\obj\Debug\HelloService.pdb

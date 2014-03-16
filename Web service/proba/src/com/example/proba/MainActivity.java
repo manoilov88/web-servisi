@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
 	//http://localhost:8080/HelloService.svc?wsdl
 //	public static final String URL = "http://10.0.2.2:80/MyFirstPublishedWebService/WebServiceImpl.svc?wsdl";
 //	public static final String URL = "http://10.0.2.2:8080/HelloService.svc?wsdl";  /
-	public static final String URL = "http://192.168.20.245:8080/HelloService.svc?wsdl";  
+	public static final String URL = "http://192.168.0.100:8080/HelloService.svc?wsdl";  
 	public static String SOAP_ACTION; 
 	public static String METHOD_NAME;
 	 String obj;
