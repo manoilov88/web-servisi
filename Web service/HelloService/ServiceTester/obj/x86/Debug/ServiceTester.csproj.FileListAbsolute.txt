@@ -1,0 +1,5 @@
+C:\Users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\ServiceTester\bin\Debug\ServiceTester.exe
+C:\Users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\ServiceTester\bin\Debug\ServiceTester.pdb
+C:\Users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\ServiceTester\obj\x86\Debug\ServiceTester.exe
+C:\Users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\ServiceTester\obj\x86\Debug\ServiceTester.pdb
+C:\Users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\ServiceTester\bin\Debug\ServiceTester.exe.config

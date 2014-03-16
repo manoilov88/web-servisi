@@ -1,0 +1,4 @@
+c:\users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\HelloService\bin\HelloService.dll
+c:\users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\HelloService\bin\HelloService.pdb
+c:\users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\HelloService\obj\Debug\HelloService.dll
+c:\users\533ciitlab3\documents\visual studio 2010\Projects\HelloService\HelloService\obj\Debug\HelloService.pdb

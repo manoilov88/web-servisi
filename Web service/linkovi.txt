@@ -1,0 +1,3 @@
+http://www.wikihow.com/Open-Ports
+http://dotnetmentors.com/how-to-host-wcf-service-in-iis-7.aspx
+http://www.kebabshopblues.co.uk/2013/09/20/hosting-a-wcf-service-library-project-in-iis-8-0-windows-8-0-net-4-5/
