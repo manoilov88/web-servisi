@@ -12,26 +12,34 @@ import android.os.StrictMode;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnClickListener{
 	
 	public static final String NAMESPACE = "http://tempuri.org/";
 	//http://localhost:8080/HelloService.svc?wsdl
 //	public static final String URL = "http://10.0.2.2:80/MyFirstPublishedWebService/WebServiceImpl.svc?wsdl";
 //	public static final String URL = "http://10.0.2.2:8080/HelloService.svc?wsdl";  /
-	public static final String URL = "http://192.168.20.103:8080/HelloService.svc?wsdl";  
+//	public static final String URL = "http://192.168.20.103:8080/HelloService.svc?wsdl";  
+	public static final String URL = "http://192.168.0.100:8080/HelloService.svc?wsdl"; 
 	public static String SOAP_ACTION; 
 	public static String METHOD_NAME;
 	 String obj;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
+		
+		LinearLayout ll = (LinearLayout) findViewById(R.id.layout_camera);
+        ll.setBackgroundResource(R.drawable.narandzasto);
 		
 		Button b = (Button) findViewById(R.id.button1);
 		b.setOnClickListener(new OnClickListener() {
@@ -89,6 +97,27 @@ public class MainActivity extends Activity {
 		    	
 		        } 
 		    });
+		
+		 View btn=findViewById(R.id.layout_map);
+	     btn.setOnClickListener(this);
+		
+	}
+	
+	@Override
+	public void onClick(View v) {
+		Intent i;
+		switch (v.getId()) {
+				
+		case R.id.layout_map:
+			i = new Intent(getApplicationContext(), ARGoogleMapsActivity.class);
+			startActivity(i);
+			finish();
+			break;
+		
+
+		default:
+			break;			
+		}
 		
 	}
 	

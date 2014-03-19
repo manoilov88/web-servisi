@@ -64,9 +64,12 @@
            
          <meta-data android:name="com.google.android.gms.version" 
             android:value="@integer/google_play_services_version" />
+         
+         <!--  AIzaSyBGh3E4PBKKHEa0V3LXgSzsW43x1ZE2XJM kuci -->
+         <!--  AIzaSyDlN11fzv3Uu5veBqha1_OrY5Clu5nu crta  crta 4 fax -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDlN11fzv3Uu5veBqha1_OrY5Clu5nu--4" />
+            android:value="AIzaSyBGh3E4PBKKHEa0V3LXgSzsW43x1ZE2XJM" />
         
         
     </application>

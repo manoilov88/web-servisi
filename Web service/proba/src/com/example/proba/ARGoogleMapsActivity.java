@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,11 +30,11 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    
     this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-    
-    
 	setContentView(R.layout.map);
+	
+	LinearLayout ll = (LinearLayout) findViewById(R.id.layout_map);
+    ll.setBackgroundResource(R.drawable.narandzasto);
     
 	Intent intent = getIntent();
     date =  intent.getStringExtra("date");
@@ -51,7 +52,7 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
     AddLocation(lat, lon);
    
     
-    LatLng user_position = new LatLng(lat, lon);
+    LatLng user_position = new LatLng(43.324083, 21.901384);
 
     // Move the camera instantly to hamburg with a zoom of 15.
     map.moveCamera(CameraUpdateFactory.newLatLngZoom(user_position, 3));
@@ -59,7 +60,12 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
     // Zoom in, animating the camera.
     map.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
     
+    View btn=findViewById(R.id.layout_camera);
+    btn.setOnClickListener(this);
+    
   }
+  
+
  
   public static boolean isTablet(Context context) {
 	    return (context.getResources().getConfiguration().screenLayout
@@ -89,7 +95,19 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-	
+		Intent i;
+		switch (v.getId()) {
+				
+		case R.id.layout_camera:
+			i = new Intent(getApplicationContext(), MainActivity.class);
+			startActivity(i);
+			finish();
+			break;
+		
+
+		default:
+			break;			
+		}
 	}
 
 	@Override

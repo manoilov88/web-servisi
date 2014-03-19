@@ -8,7 +8,8 @@
     android:weightSum="1">
 	 <LinearLayout 
 	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"
+	    android:layout_height="0dp"
+	    android:layout_weight=".85"
 	    tools:context=".ARGoogleMapsActivity" 
 	    >
 	
@@ -20,6 +21,47 @@
 	       />
 	
 	</LinearLayout> 
+	
+	 <LinearLayout 
+        android:layout_width="fill_parent"
+    	android:layout_height="0dp"
+    	android:layout_weight=".15"
+    	android:orientation="horizontal"
+    	android:weightSum="1"
+		    	android:background="@drawable/gradient">
+    
+         <LinearLayout 
+      		    android:id="@+id/layout_camera" 
+		        android:layout_width="0dp"
+		    	android:layout_height="match_parent"
+		    	android:layout_weight=".5"
+		    	android:gravity="center">
+               
+                <ImageView 
+                   	android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+		    		android:background="@drawable/audionews_gray"/>
+                
+   			 </LinearLayout>
+         
+           <LinearLayout
+                android:id="@+id/layout_map" 
+		        android:layout_width="0dp"
+		    	android:layout_height="match_parent"
+		    	android:layout_weight=".5"
+		    	android:gravity="center"
+		    	>
+		    	
+               <ImageView 
+                   	android:layout_width="wrap_content"
+		    		android:layout_height="wrap_content"
+		    		android:background="@drawable/map"/>
+               
+    		</LinearLayout>
+    		
+      		
+         
+    </LinearLayout>
 
 
 </LinearLayout>
