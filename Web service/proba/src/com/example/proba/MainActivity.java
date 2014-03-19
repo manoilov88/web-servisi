@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
 	//http://localhost:8080/HelloService.svc?wsdl
 //	public static final String URL = "http://10.0.2.2:80/MyFirstPublishedWebService/WebServiceImpl.svc?wsdl";
 //	public static final String URL = "http://10.0.2.2:8080/HelloService.svc?wsdl";  /
-	public static final String URL = "http://192.168.0.100:8080/HelloService.svc?wsdl";  
+	public static final String URL = "http://192.168.20.103:8080/HelloService.svc?wsdl";  
 	public static String SOAP_ACTION; 
 	public static String METHOD_NAME;
 	 String obj;
@@ -71,6 +71,19 @@ public class MainActivity extends Activity {
 		    	AsyncCallWS task = new AsyncCallWS();
 			    task.execute("proizvod"); 
 		    	
+//		    	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+//		    	startActivity(browserIntent);
+		    	
+		        } 
+		    });
+		
+		Button b4 = (Button) findViewById(R.id.button4);
+		b4.setOnClickListener(new OnClickListener() {
+		    public void onClick(View v) {
+		        //DO SOMETHING! {RUN SOME FUNCTION ... DO CHECKS... ETC}
+		    	
+		    	Intent intent = new Intent(getApplicationContext(), ARGoogleMapsActivity.class);
+		    	startActivity(intent);
 //		    	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
 //		    	startActivity(browserIntent);
 		    	
