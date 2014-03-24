@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="08f48c79-155e-4ec8-9b4c-30ede740ebee" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="49ed852b-6ec9-4762-a592-eb6524a2ef41" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <EnableDataBinding>true</EnableDataBinding>
@@ -8,9 +8,7 @@
     <GenerateInternalTypes>false</GenerateInternalTypes>
     <GenerateMessageContracts>false</GenerateMessageContracts>
     <NamespaceMappings />
-    <CollectionMappings>
-      <CollectionMapping TypeName="System.Collections.Generic.List`1" Category="List" />
-    </CollectionMappings>
+    <CollectionMappings />
     <GenerateSerializableTypes>true</GenerateSerializableTypes>
     <Serializer>Auto</Serializer>
     <UseSerializerForFaults>true</UseSerializerForFaults>
@@ -23,10 +21,10 @@
     <MetadataSource Address="http://localhost:4797/HelloService.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="HelloService.disco" MetadataType="Disco" ID="63cad4e7-afb0-4aa4-aa13-65c60597d2e8" SourceId="1" SourceUrl="http://localhost:4797/HelloService.svc?disco" />
-    <MetadataFile FileName="HelloService.xsd" MetadataType="Schema" ID="d427c165-8ba1-4013-a5b5-f2b300ac4bc8" SourceId="1" SourceUrl="http://localhost:4797/HelloService.svc?xsd=xsd0" />
-    <MetadataFile FileName="HelloService.wsdl" MetadataType="Wsdl" ID="8bbc6aae-b0af-486d-8953-f94b07e75d9a" SourceId="1" SourceUrl="http://localhost:4797/HelloService.svc?wsdl" />
-    <MetadataFile FileName="HelloService1.xsd" MetadataType="Schema" ID="55dfe612-d1bd-4bdf-8b3a-ef28130d1318" SourceId="1" SourceUrl="http://localhost:4797/HelloService.svc?xsd=xsd1" />
+    <MetadataFile FileName="HelloService.disco" MetadataType="Disco" ID="491e3ab3-5a3b-4e67-b12c-83b21841ec71" SourceId="1" SourceUrl="http://localhost:4797/HelloService.svc?disco" />
+    <MetadataFile FileName="HelloService1.xsd" MetadataType="Schema" ID="ee5de823-96fd-4b82-b6ef-9a6fef0f9198" SourceId="1" SourceUrl="http://localhost:4797/HelloService.svc?xsd=xsd0" />
+    <MetadataFile FileName="HelloService.wsdl" MetadataType="Wsdl" ID="0bd89d84-209d-4c73-9ec5-693ae3e5fe51" SourceId="1" SourceUrl="http://localhost:4797/HelloService.svc?wsdl" />
+    <MetadataFile FileName="HelloService.xsd" MetadataType="Schema" ID="8e5a49e0-2776-4eea-a715-4d6d281fff3a" SourceId="1" SourceUrl="http://localhost:4797/HelloService.svc?xsd=xsd1" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

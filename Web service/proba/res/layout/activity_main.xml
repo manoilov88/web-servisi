@@ -29,6 +29,12 @@
         android:text="Zbir" />
 
     <Button
+        android:id="@+id/button6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lokacija" />
+
+    <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,6 +49,12 @@
         android:layout_below="@+id/button3"
         android:layout_marginTop="20dp"
         android:text="Map" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kolicnik" />
     
     </LinearLayout>
     

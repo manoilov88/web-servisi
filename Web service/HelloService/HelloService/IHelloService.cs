@@ -22,5 +22,11 @@ namespace HelloService
 
         [OperationContract]
         int Proizvod(int a, int b);
+
+        [OperationContract]
+        double Kolicnik(int a, int b);
+
+        [OperationContract]
+        string AllArchParks();
     }
 }

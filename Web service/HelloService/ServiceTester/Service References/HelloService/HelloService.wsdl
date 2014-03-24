@@ -24,6 +24,24 @@
   <wsdl:message name="IHelloService_Razlika_OutputMessage">
     <wsdl:part name="parameters" element="tns:RazlikaResponse" />
   </wsdl:message>
+  <wsdl:message name="IHelloService_Proizvod_InputMessage">
+    <wsdl:part name="parameters" element="tns:Proizvod" />
+  </wsdl:message>
+  <wsdl:message name="IHelloService_Proizvod_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ProizvodResponse" />
+  </wsdl:message>
+  <wsdl:message name="IHelloService_Kolicnik_InputMessage">
+    <wsdl:part name="parameters" element="tns:Kolicnik" />
+  </wsdl:message>
+  <wsdl:message name="IHelloService_Kolicnik_OutputMessage">
+    <wsdl:part name="parameters" element="tns:KolicnikResponse" />
+  </wsdl:message>
+  <wsdl:message name="IHelloService_AllArchParks_InputMessage">
+    <wsdl:part name="parameters" element="tns:AllArchParks" />
+  </wsdl:message>
+  <wsdl:message name="IHelloService_AllArchParks_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AllArchParksResponse" />
+  </wsdl:message>
   <wsdl:portType name="IHelloService">
     <wsdl:operation name="SayHello">
       <wsdl:input wsaw:Action="http://tempuri.org/IHelloService/SayHello" message="tns:IHelloService_SayHello_InputMessage" />
@@ -36,6 +54,18 @@
     <wsdl:operation name="Razlika">
       <wsdl:input wsaw:Action="http://tempuri.org/IHelloService/Razlika" message="tns:IHelloService_Razlika_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IHelloService/RazlikaResponse" message="tns:IHelloService_Razlika_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Proizvod">
+      <wsdl:input wsaw:Action="http://tempuri.org/IHelloService/Proizvod" message="tns:IHelloService_Proizvod_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IHelloService/ProizvodResponse" message="tns:IHelloService_Proizvod_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Kolicnik">
+      <wsdl:input wsaw:Action="http://tempuri.org/IHelloService/Kolicnik" message="tns:IHelloService_Kolicnik_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IHelloService/KolicnikResponse" message="tns:IHelloService_Kolicnik_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AllArchParks">
+      <wsdl:input wsaw:Action="http://tempuri.org/IHelloService/AllArchParks" message="tns:IHelloService_AllArchParks_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IHelloService/AllArchParksResponse" message="tns:IHelloService_AllArchParks_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IHelloService" type="tns:IHelloService">
@@ -60,6 +90,33 @@
     </wsdl:operation>
     <wsdl:operation name="Razlika">
       <soap:operation soapAction="http://tempuri.org/IHelloService/Razlika" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Proizvod">
+      <soap:operation soapAction="http://tempuri.org/IHelloService/Proizvod" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Kolicnik">
+      <soap:operation soapAction="http://tempuri.org/IHelloService/Kolicnik" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AllArchParks">
+      <soap:operation soapAction="http://tempuri.org/IHelloService/AllArchParks" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

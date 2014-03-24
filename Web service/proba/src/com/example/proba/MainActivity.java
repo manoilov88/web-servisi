@@ -5,6 +5,7 @@ import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -90,8 +91,40 @@ public class MainActivity extends Activity implements OnClickListener{
 		    public void onClick(View v) {
 		        //DO SOMETHING! {RUN SOME FUNCTION ... DO CHECKS... ETC}
 		    	
-		    	Intent intent = new Intent(getApplicationContext(), ARGoogleMapsActivity.class);
-		    	startActivity(intent);
+		    	GPSTracker gpst = new GPSTracker(getApplicationContext());
+		    	Location l = gpst.getLocation();
+//		    	String add = gpst.getAddress(l);
+		    	Toast.makeText(getApplicationContext(), String.valueOf(l.getLatitude()), Toast.LENGTH_SHORT).show();
+//		    	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+//		    	startActivity(browserIntent);
+		    	
+		        } 
+		    });
+		
+		Button b5 = (Button) findViewById(R.id.button5);
+		b5.setOnClickListener(new OnClickListener() {
+		    public void onClick(View v) {
+		        //DO SOMETHING! {RUN SOME FUNCTION ... DO CHECKS... ETC}
+		    	
+		    	SOAP_ACTION = "http://tempuri.org/IHelloService/Kolicnik";
+		    	METHOD_NAME = "Kolicnik";
+		    	AsyncCallWS task = new AsyncCallWS();
+			    task.execute("Kolicnik"); 
+//		    	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
+//		    	startActivity(browserIntent);
+		    	
+		        } 
+		    });
+		
+		Button b6 = (Button) findViewById(R.id.button6);
+		b6.setOnClickListener(new OnClickListener() {
+		    public void onClick(View v) {
+		        //DO SOMETHING! {RUN SOME FUNCTION ... DO CHECKS... ETC}
+		    	
+		    	SOAP_ACTION = "http://tempuri.org/IHelloService/AllArchParks";
+		    	METHOD_NAME = "AllArchParks";
+		    	AsyncObject task = new AsyncObject();
+			    task.execute("AllArchParks"); 
 //		    	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
 //		    	startActivity(browserIntent);
 		    	
@@ -111,7 +144,6 @@ public class MainActivity extends Activity implements OnClickListener{
 		case R.id.layout_map:
 			i = new Intent(getApplicationContext(), ARGoogleMapsActivity.class);
 			startActivity(i);
-			finish();
 			break;
 		
 
@@ -143,13 +175,57 @@ public class MainActivity extends Activity implements OnClickListener{
 
     }
 	
+	private class AsyncObject extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+        	GetObject();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+        	Toast.makeText(getApplicationContext(), obj, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+        }
+
+    }
+	
+	
+	public void GetObject()
+	{
+		SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME); 
+        
+		 SoapSerializationEnvelope envelope = 
+	                new SoapSerializationEnvelope(SoapEnvelope.VER11); 
+
+	        envelope .dotNet = true;
+
+	        envelope.setOutputSoapObject(request);
+	        HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+	        try {
+	            androidHttpTransport.call(SOAP_ACTION, envelope); 
+	           obj = envelope.getResponse().toString();
+	          
+	        }
+	        catch (Exception e) {
+	            e.printStackTrace();
+	        }
+		
+	}
 	
 	
 	public void Calculate()
 	{
 		SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME); 
-		request.addProperty("a", 5);
-        request.addProperty("b", 9);
+		request.addProperty("a", 10);
+        request.addProperty("b", 5);
         
 		 SoapSerializationEnvelope envelope = 
 	                new SoapSerializationEnvelope(SoapEnvelope.VER11); 

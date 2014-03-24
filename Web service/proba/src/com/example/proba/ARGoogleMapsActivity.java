@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -50,16 +51,18 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
  
     
     AddLocation(lat, lon);
+    GPSTracker gpst = new GPSTracker(getApplicationContext());
+	Location l = gpst.getLocation();
+    LatLng user_position = new LatLng(l.getLatitude(), l.getLongitude());
    
-    
-    LatLng user_position = new LatLng(43.324083, 21.901384);
+ //   LatLng user_position = new LatLng( 43.323752, 21.895280);
 
     // Move the camera instantly to hamburg with a zoom of 15.
     map.moveCamera(CameraUpdateFactory.newLatLngZoom(user_position, 3));
 
     // Zoom in, animating the camera.
-    map.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
-    
+    map.animateCamera(CameraUpdateFactory.zoomTo(18), 2000, null);
+    map.setMyLocationEnabled(true);
     View btn=findViewById(R.id.layout_camera);
     btn.setOnClickListener(this);
     
