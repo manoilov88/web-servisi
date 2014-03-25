@@ -7,6 +7,7 @@ using System.Text;
 using Npgsql;
 using Mono.Security;
 using System.Data;
+using System.Xml.Linq;
 
 namespace HelloService
 {
@@ -52,13 +53,47 @@ namespace HelloService
         {
             List<string> arch_parks = new List<string>();
 
-            DataTable dt = DataBaseHelper.GetData(@"select * from ""Location""");
-            
-            arch_parks.Add("Tvrđava");
-            arch_parks.Add("Medijana");
+            DataTable dt = DataBaseHelper.GetData(@"select name from ""Location""");
+            XElement all_parks= new XElement("parks");
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                arch_parks.Add(dt.Rows[i]["name"].ToString());
+                XElement pregled =
+                           new XElement("park",
+                               new XElement("name", dt.Rows[i]["name"].ToString())
+                           );
+                all_parks.Add(pregled);
+            }
+
 
             //return arch_parks;
-            return dt.Rows[0]["name"].ToString();
+            return all_parks.ToString();
+        }
+
+        public string AllParkObjects(string park_name)
+        {
+            List<string> arch_objects = new List<string>();
+            string querry = @"select * from ""Coordinates"" where location_id = (Select id_location from ""Location"" where name = '" + park_name + "')"; 
+            DataTable dt = DataBaseHelper.GetData(querry);
+
+            XElement all_parks = new XElement("objects");
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                arch_objects.Add(dt.Rows[i]["name"].ToString());
+                XElement pregled =
+                           new XElement("object",
+                               new XElement("name", dt.Rows[i]["name"].ToString()),
+                               new XElement("latitude", dt.Rows[i]["latitude"].ToString()),
+                               new XElement("longitude", dt.Rows[i]["longitude"].ToString())
+                           );
+                all_parks.Add(pregled);
+            }
+
+
+            //return arch_parks;
+            return all_parks.ToString();
         }
     }
 }

@@ -28,5 +28,9 @@ namespace HelloService
 
         [OperationContract]
         string AllArchParks();
+
+        [OperationContract]
+        string AllParkObjects(string park_name);
+
     }
 }

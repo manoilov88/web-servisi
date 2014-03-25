@@ -1,19 +1,14 @@
 package com.example.proba;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import android.location.Location;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -25,9 +20,6 @@ import android.widget.Toast;
 public class MainActivity extends Activity implements OnClickListener{
 	
 	public static final String NAMESPACE = "http://tempuri.org/";
-	//http://localhost:8080/HelloService.svc?wsdl
-//	public static final String URL = "http://10.0.2.2:80/MyFirstPublishedWebService/WebServiceImpl.svc?wsdl";
-//	public static final String URL = "http://10.0.2.2:8080/HelloService.svc?wsdl";  /
 //	public static final String URL = "http://192.168.20.103:8080/HelloService.svc?wsdl";  
 	public static final String URL = "http://192.168.0.100:8080/HelloService.svc?wsdl"; 
 	public static String SOAP_ACTION; 

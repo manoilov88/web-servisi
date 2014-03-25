@@ -1,6 +1,14 @@
 package com.example.proba;
 
+import java.util.ArrayList;
 import java.util.List;
+import org.ksoap2.SoapEnvelope;
+import org.ksoap2.serialization.SoapObject;
+import org.ksoap2.serialization.SoapSerializationEnvelope;
+import org.ksoap2.transport.HttpTransportSE;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,12 +17,14 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,17 +32,38 @@ import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerClickListener, OnClickListener{
+
+	public static final String NAMESPACE = "http://tempuri.org/";
+	//	public static final String URL = "http://192.168.20.103:8080/HelloService.svc?wsdl";  
+	public static final String URL = "http://192.168.0.100:8080/HelloService.svc?wsdl"; 
+	public static String SOAP_ACTION; 
+	public static String METHOD_NAME;
+	public String all_pins_info = null;
   private GoogleMap map;
   String path;
   String  address;
   String  date;
+  
+//XML node keys
+  static final String KEY_ITEM = "object"; // parent node
+  static final String KEY_NAME= "name";
+  static final String KEY_LATITUDE = "latitude";
+  static final String KEY_LONGITUDE = "longitude";
+  
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	setContentView(R.layout.map);
+	
+	SOAP_ACTION = "http://tempuri.org/IHelloService/AllParkObjects";
+	METHOD_NAME = "AllParkObjects";
+	AsyncCall task = new AsyncCall();
+	task.execute();
+	
 	
 	LinearLayout ll = (LinearLayout) findViewById(R.id.layout_map);
     ll.setBackgroundResource(R.drawable.narandzasto);
@@ -50,7 +81,7 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
     map.setOnMarkerClickListener(this);
  
     
-    AddLocation(lat, lon);
+    //AddLocation(lat, lon);
     GPSTracker gpst = new GPSTracker(getApplicationContext());
 	Location l = gpst.getLocation();
     LatLng user_position = new LatLng(l.getLatitude(), l.getLongitude());
@@ -77,9 +108,36 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
 	}
   
  
-	private void AddLocation(double lat, double lon) {
+	private void AddLocations() {
 		// TODO Auto-generated method stub
 		
+		XMLParser parser = new XMLParser();
+		String xml = all_pins_info.toString();
+		Toast.makeText(getApplicationContext(), xml, Toast.LENGTH_LONG).show();
+		Document doc =  parser.getDomElement(xml);
+		NodeList nl = doc.getElementsByTagName(KEY_ITEM);
+		
+		List<ArchObject> objects = new ArrayList<ArchObject>();
+		Marker marker;
+		for(int i=0; i<nl.getLength(); i++)
+		{
+			 Element e = (Element) nl.item(i);
+			 String name = parser.getValue(e, KEY_NAME); // name child value
+		     double lat = Double.valueOf(parser.getValue(e, KEY_LATITUDE).replace(",", ".")); // cost child value
+		     double lon = Double.valueOf(parser.getValue(e, KEY_LONGITUDE).replace(",", ".")); // description child value
+			 ArchObject arc_object = new ArchObject(name, lat, lon);
+			 objects.add(arc_object);
+			 LatLng position =  new LatLng(lat, lon);
+			  marker = map.addMarker(new MarkerOptions()
+		        .position(position)
+		        .snippet("50m")
+		        .title(name));
+
+			  marker.showInfoWindow();
+			 
+		}
+		int pom;
+		pom = 40;  
 //     	LatLng position =  new LatLng(43.324083, 21.901384);
 //		Marker marker = map.addMarker(new MarkerOptions()
 //        .position(position)
@@ -119,34 +177,48 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
 		return false;
 	}
 	
-	public void SendMail(View v)
-	{
-		 Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-         String[] recipients = new String[]{"e-mail address"};
-//         emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, recipients);
-         emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Dent-Cam");
-         
-         String output = "Address: "+ address+"\nDate: "+date+ "\n";
+	private class AsyncCall extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+        	getAllPins();
+            return null;
+        }
 
-         emailIntent.putExtra(android.content.Intent.EXTRA_TEXT,output.toString());
-         
-         emailIntent.setType("plain/text"); // This is incorrect MIME, but Gmail is one of the only apps that responds to it - this might need to be replaced with text/plain for Facebook
-        
-         emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file:///" + path));
-         emailIntent.setType("image/jpg");
-         
-         final PackageManager pm = getPackageManager();
-         final List<ResolveInfo> matches = pm.queryIntentActivities(emailIntent, 0);
-         ResolveInfo best = null;
-         for (final ResolveInfo info : matches)
-             if (info.activityInfo.packageName.endsWith(".gm") ||
-                     info.activityInfo.name.toLowerCase().contains("gmail")) best = info;
-                 if (best != null)
-                     emailIntent.setClassName(best.activityInfo.packageName, best.activityInfo.name);
-                 startActivity(emailIntent);
-		
+        @Override
+        protected void onPostExecute(Void result) {
+        	AddLocations();
+        }
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+        }
+
+    }
 	
+	public void getAllPins()
+	{
+		SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME); 
+		request.addProperty("park_name", "Tvrðava");
+		 SoapSerializationEnvelope envelope = 
+	                new SoapSerializationEnvelope(SoapEnvelope.VER11); 
+
+	        envelope .dotNet = true;
+
+	        envelope.setOutputSoapObject(request);
+	        HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+	        try {
+	            androidHttpTransport.call(SOAP_ACTION, envelope); 
+	           all_pins_info = envelope.getResponse().toString();
+	          
+	        }
+	        catch (Exception e) {
+	            e.printStackTrace();
+	        }
 	}
- 
+	
 
 } 

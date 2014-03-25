@@ -3,9 +3,9 @@
   <publishProfile publishUrl="D:\WebService" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="Profile1" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
     <file relUrl="bin/Mono.Security.dll" publishTime="09/30/2011 18:07:24" />
     <file relUrl="bin/Npgsql.dll" publishTime="09/30/2011 18:07:24" />
-    <file relUrl="Web.config" publishTime="03/24/2014 22:32:12" />
-    <file relUrl="bin/HelloService.dll" publishTime="03/24/2014 22:32:08" />
-    <file relUrl="bin/HelloService.pdb" publishTime="03/24/2014 22:32:08" />
+    <file relUrl="Web.config" publishTime="03/25/2014 18:59:19" />
+    <file relUrl="bin/HelloService.dll" publishTime="03/25/2014 18:44:57" />
+    <file relUrl="bin/HelloService.pdb" publishTime="03/25/2014 18:44:57" />
     <file relUrl="HelloService.svc" publishTime="02/11/2014 12:09:40" />
   </publishProfile>
 </publishData>

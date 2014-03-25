@@ -32,6 +32,9 @@ namespace ServiceTester.HelloService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IHelloService/AllArchParks", ReplyAction="http://tempuri.org/IHelloService/AllArchParksResponse")]
         string AllArchParks();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IHelloService/AllParkObjects", ReplyAction="http://tempuri.org/IHelloService/AllParkObjectsResponse")]
+        string AllParkObjects(string park_name);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -83,6 +86,10 @@ namespace ServiceTester.HelloService {
         
         public string AllArchParks() {
             return base.Channel.AllArchParks();
+        }
+        
+        public string AllParkObjects(string park_name) {
+            return base.Channel.AllParkObjects(park_name);
         }
     }
 }

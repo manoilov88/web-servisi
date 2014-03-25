@@ -87,4 +87,18 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="AllParkObjects">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="park_name" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AllParkObjectsResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="AllParkObjectsResult" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

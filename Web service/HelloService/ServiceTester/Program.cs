@@ -17,6 +17,7 @@ namespace ServiceTester
                 Console.WriteLine(hs.Zbir(3, 4));
                 Console.WriteLine(hs.Razlika(113, 35));
                 Console.WriteLine(hs.AllArchParks());
+                Console.WriteLine(hs.AllParkObjects("Tvrđava"));
                 Console.Read();
             }
             

@@ -42,6 +42,12 @@
   <wsdl:message name="IHelloService_AllArchParks_OutputMessage">
     <wsdl:part name="parameters" element="tns:AllArchParksResponse" />
   </wsdl:message>
+  <wsdl:message name="IHelloService_AllParkObjects_InputMessage">
+    <wsdl:part name="parameters" element="tns:AllParkObjects" />
+  </wsdl:message>
+  <wsdl:message name="IHelloService_AllParkObjects_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AllParkObjectsResponse" />
+  </wsdl:message>
   <wsdl:portType name="IHelloService">
     <wsdl:operation name="SayHello">
       <wsdl:input wsaw:Action="http://tempuri.org/IHelloService/SayHello" message="tns:IHelloService_SayHello_InputMessage" />
@@ -66,6 +72,10 @@
     <wsdl:operation name="AllArchParks">
       <wsdl:input wsaw:Action="http://tempuri.org/IHelloService/AllArchParks" message="tns:IHelloService_AllArchParks_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IHelloService/AllArchParksResponse" message="tns:IHelloService_AllArchParks_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AllParkObjects">
+      <wsdl:input wsaw:Action="http://tempuri.org/IHelloService/AllParkObjects" message="tns:IHelloService_AllParkObjects_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IHelloService/AllParkObjectsResponse" message="tns:IHelloService_AllParkObjects_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IHelloService" type="tns:IHelloService">
@@ -117,6 +127,15 @@
     </wsdl:operation>
     <wsdl:operation name="AllArchParks">
       <soap:operation soapAction="http://tempuri.org/IHelloService/AllArchParks" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AllParkObjects">
+      <soap:operation soapAction="http://tempuri.org/IHelloService/AllParkObjects" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

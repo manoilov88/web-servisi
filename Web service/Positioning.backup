@@ -1,0 +1,270 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.3.3
+-- Dumped by pg_dump version 9.3.3
+-- Started on 2014-03-25 21:16:52
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 175 (class 3079 OID 11750)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 1961 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 170 (class 1259 OID 16394)
+-- Name: Coordinates; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "Coordinates" (
+    name text,
+    latitude double precision,
+    longitude double precision,
+    location_id integer NOT NULL,
+    id_object integer NOT NULL
+);
+
+
+ALTER TABLE public."Coordinates" OWNER TO postgres;
+
+--
+-- TOC entry 171 (class 1259 OID 16422)
+-- Name: Coordinates_id_location_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Coordinates_id_location_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Coordinates_id_location_seq" OWNER TO postgres;
+
+--
+-- TOC entry 1962 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: Coordinates_id_location_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Coordinates_id_location_seq" OWNED BY "Coordinates".location_id;
+
+
+--
+-- TOC entry 172 (class 1259 OID 16431)
+-- Name: Coordinates_id_object_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Coordinates_id_object_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Coordinates_id_object_seq" OWNER TO postgres;
+
+--
+-- TOC entry 1963 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: Coordinates_id_object_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Coordinates_id_object_seq" OWNED BY "Coordinates".id_object;
+
+
+--
+-- TOC entry 173 (class 1259 OID 16443)
+-- Name: Location; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE "Location" (
+    id_location integer NOT NULL,
+    name text
+);
+
+
+ALTER TABLE public."Location" OWNER TO postgres;
+
+--
+-- TOC entry 174 (class 1259 OID 16446)
+-- Name: Location_id_loacation_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE "Location_id_loacation_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Location_id_loacation_seq" OWNER TO postgres;
+
+--
+-- TOC entry 1964 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: Location_id_loacation_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE "Location_id_loacation_seq" OWNED BY "Location".id_location;
+
+
+--
+-- TOC entry 1833 (class 2604 OID 16424)
+-- Name: location_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Coordinates" ALTER COLUMN location_id SET DEFAULT nextval('"Coordinates_id_location_seq"'::regclass);
+
+
+--
+-- TOC entry 1834 (class 2604 OID 16433)
+-- Name: id_object; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Coordinates" ALTER COLUMN id_object SET DEFAULT nextval('"Coordinates_id_object_seq"'::regclass);
+
+
+--
+-- TOC entry 1835 (class 2604 OID 16448)
+-- Name: id_location; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Location" ALTER COLUMN id_location SET DEFAULT nextval('"Location_id_loacation_seq"'::regclass);
+
+
+--
+-- TOC entry 1949 (class 0 OID 16394)
+-- Dependencies: 170
+-- Data for Name: Coordinates; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Coordinates" (name, latitude, longitude, location_id, id_object) FROM stdin;
+Rimske terme	43.324418999999999	21.894635000000001	1	1
+Rimska ulica	43.326307	21.895949000000002	1	2
+Spomenik Kralja Milana	43.324427999999997	21.894950999999999	1	3
+Stambol - kapija	43.323329000000001	21.895265999999999	1	4
+Vila sa peristilom	43.310045000000002	21.948788	2	5
+\.
+
+
+--
+-- TOC entry 1965 (class 0 OID 0)
+-- Dependencies: 171
+-- Name: Coordinates_id_location_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Coordinates_id_location_seq"', 1, false);
+
+
+--
+-- TOC entry 1966 (class 0 OID 0)
+-- Dependencies: 172
+-- Name: Coordinates_id_object_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Coordinates_id_object_seq"', 5, true);
+
+
+--
+-- TOC entry 1952 (class 0 OID 16443)
+-- Dependencies: 173
+-- Data for Name: Location; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Location" (id_location, name) FROM stdin;
+1	Tvrđava
+2	Medijana
+\.
+
+
+--
+-- TOC entry 1967 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: Location_id_loacation_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('"Location_id_loacation_seq"', 2, true);
+
+
+--
+-- TOC entry 1837 (class 2606 OID 16442)
+-- Name: Coordinates_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "Coordinates"
+    ADD CONSTRAINT "Coordinates_pkey" PRIMARY KEY (id_object);
+
+
+--
+-- TOC entry 1840 (class 2606 OID 16456)
+-- Name: Location_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY "Location"
+    ADD CONSTRAINT "Location_pkey" PRIMARY KEY (id_location);
+
+
+--
+-- TOC entry 1838 (class 1259 OID 16462)
+-- Name: fki_location; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX fki_location ON "Coordinates" USING btree (location_id);
+
+
+--
+-- TOC entry 1841 (class 2606 OID 16457)
+-- Name: fk_location; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Coordinates"
+    ADD CONSTRAINT fk_location FOREIGN KEY (location_id) REFERENCES "Location"(id_location);
+
+
+--
+-- TOC entry 1960 (class 0 OID 0)
+-- Dependencies: 5
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2014-03-25 21:16:52
+
+--
+-- PostgreSQL database dump complete
+--
+
