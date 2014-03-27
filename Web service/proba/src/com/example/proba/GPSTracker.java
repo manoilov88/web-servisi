@@ -13,6 +13,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
+
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.DialogInterface;
@@ -58,14 +60,11 @@ public class GPSTracker  extends Service implements LocationListener
     // Declaring a Location Manager
     protected LocationManager locationManager;
     
-
- 
     public GPSTracker(Context context)
     {
         this.mContext = context;
 //        getLocation();
     }
-    
     
     public Location getLocation() 
     {
@@ -75,7 +74,7 @@ public class GPSTracker  extends Service implements LocationListener
  
             isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-            
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 10, this);
             boolean isOnline = isOnline();
             
             // TODO: Daniel - proveri da li je GPS ukljuèen i da li ima signal
@@ -191,9 +190,9 @@ public class GPSTracker  extends Service implements LocationListener
     @Override
     public void onLocationChanged(Location location)
     {
-    	
-    	
+    	Toast.makeText(getApplicationContext(), String.valueOf(location.getLatitude()), Toast.LENGTH_SHORT).show();
     }
+    
  
     @Override
     public void onProviderDisabled(String provider)

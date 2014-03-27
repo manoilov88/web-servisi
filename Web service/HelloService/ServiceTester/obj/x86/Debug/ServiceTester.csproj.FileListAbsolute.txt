@@ -8,3 +8,4 @@ D:\GitHub\web-servisi\Web service\HelloService\ServiceTester\bin\Debug\ServiceTe
 D:\GitHub\web-servisi\Web service\HelloService\ServiceTester\bin\Debug\ServiceTester.pdb
 D:\GitHub\web-servisi\Web service\HelloService\ServiceTester\obj\x86\Debug\ServiceTester.exe
 D:\GitHub\web-servisi\Web service\HelloService\ServiceTester\obj\x86\Debug\ServiceTester.pdb
+D:\GitHub\web-servisi\Web service\HelloService\ServiceTester\obj\x86\Debug\ServiceTester.csprojResolveAssemblyReference.cache

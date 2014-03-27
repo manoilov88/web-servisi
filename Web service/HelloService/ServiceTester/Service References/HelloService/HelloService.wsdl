@@ -48,6 +48,24 @@
   <wsdl:message name="IHelloService_AllParkObjects_OutputMessage">
     <wsdl:part name="parameters" element="tns:AllParkObjectsResponse" />
   </wsdl:message>
+  <wsdl:message name="IHelloService_distance_InputMessage">
+    <wsdl:part name="parameters" element="tns:distance" />
+  </wsdl:message>
+  <wsdl:message name="IHelloService_distance_OutputMessage">
+    <wsdl:part name="parameters" element="tns:distanceResponse" />
+  </wsdl:message>
+  <wsdl:message name="IHelloService_distances_InputMessage">
+    <wsdl:part name="parameters" element="tns:distances" />
+  </wsdl:message>
+  <wsdl:message name="IHelloService_distances_OutputMessage">
+    <wsdl:part name="parameters" element="tns:distancesResponse" />
+  </wsdl:message>
+  <wsdl:message name="IHelloService_distancess_InputMessage">
+    <wsdl:part name="parameters" element="tns:distancess" />
+  </wsdl:message>
+  <wsdl:message name="IHelloService_distancess_OutputMessage">
+    <wsdl:part name="parameters" element="tns:distancessResponse" />
+  </wsdl:message>
   <wsdl:portType name="IHelloService">
     <wsdl:operation name="SayHello">
       <wsdl:input wsaw:Action="http://tempuri.org/IHelloService/SayHello" message="tns:IHelloService_SayHello_InputMessage" />
@@ -76,6 +94,18 @@
     <wsdl:operation name="AllParkObjects">
       <wsdl:input wsaw:Action="http://tempuri.org/IHelloService/AllParkObjects" message="tns:IHelloService_AllParkObjects_InputMessage" />
       <wsdl:output wsaw:Action="http://tempuri.org/IHelloService/AllParkObjectsResponse" message="tns:IHelloService_AllParkObjects_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="distance">
+      <wsdl:input wsaw:Action="http://tempuri.org/IHelloService/distance" message="tns:IHelloService_distance_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IHelloService/distanceResponse" message="tns:IHelloService_distance_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="distances">
+      <wsdl:input wsaw:Action="http://tempuri.org/IHelloService/distances" message="tns:IHelloService_distances_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IHelloService/distancesResponse" message="tns:IHelloService_distances_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="distancess">
+      <wsdl:input wsaw:Action="http://tempuri.org/IHelloService/distancess" message="tns:IHelloService_distancess_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IHelloService/distancessResponse" message="tns:IHelloService_distancess_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IHelloService" type="tns:IHelloService">
@@ -136,6 +166,33 @@
     </wsdl:operation>
     <wsdl:operation name="AllParkObjects">
       <soap:operation soapAction="http://tempuri.org/IHelloService/AllParkObjects" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="distance">
+      <soap:operation soapAction="http://tempuri.org/IHelloService/distance" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="distances">
+      <soap:operation soapAction="http://tempuri.org/IHelloService/distances" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="distancess">
+      <soap:operation soapAction="http://tempuri.org/IHelloService/distancess" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

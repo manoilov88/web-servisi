@@ -95,5 +95,80 @@ namespace HelloService
             //return arch_parks;
             return all_parks.ToString();
         }
+
+        public double distance(double lat1, double lon1, double lat2, double lon2, char unit) 
+        {
+	        double theta = lon1 - lon2;
+	        double dist = Math.Sin(deg2rad(lat1)) * Math.Sin(deg2rad(lat2)) + Math.Cos(deg2rad(lat1)) * Math.Cos(deg2rad(lat2)) * Math.Cos(deg2rad(theta));
+	        dist = Math.Acos(dist);
+	        dist = rad2deg(dist);
+	        dist = dist * 60 * 1.1515;
+	        if (unit == 'K') {
+	        dist = dist * 1.609344;
+	        } else if (unit == 'N') {
+	        dist = dist * 0.8684;
+	        }
+            else if (unit == 'M')
+            {
+                dist = dist * 1.609344;
+                dist = dist * 1000;
+            }
+	        return (dist);
+	    }
+
+      
+
+        public string distances(string lat1, string lon1, string park_name)
+        {
+            double tmp_lat1 = Convert.ToDouble(lat1.Replace(".",","));
+            double tmp_lon1 = Convert.ToDouble(lon1.Replace(".",","));
+
+            XElement all_distances = new XElement("distances");
+
+            string querry = @"select * from ""Coordinates"" where location_id = (Select id_location from ""Location"" where name = '" + park_name + "')"; 
+            DataTable dt = DataBaseHelper.GetData(querry);
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+
+                string dist = pom_distance(tmp_lat1, tmp_lon1, Convert.ToDouble(dt.Rows[i]["latitude"]), Convert.ToDouble(dt.Rows[i]["longitude"])).ToString();
+
+                XElement distance =
+                           new XElement("distance",
+                               new XElement("name", dt.Rows[i]["name"].ToString()),
+                               new XElement("meters", dist)
+                           );
+                all_distances.Add(distance);
+            }
+
+            return all_distances.ToString();
+        }
+
+        //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	    //::  This function converts decimal degrees to radians             :::
+	    //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	    private double deg2rad(double deg) 
+        {
+          return (deg * Math.PI / 180.0);
+	    }
+	 	    //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	    //::  This function converts radians to decimal degrees             :::
+	    //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	    private double rad2deg(double rad)
+        {
+	      return (rad / Math.PI * 180.0);
+	    }
+
+        private double pom_distance(double lat1, double lon1, double lat2, double lon2)
+        {
+            double theta = lon1 - lon2;
+            double dist = Math.Sin(deg2rad(lat1)) * Math.Sin(deg2rad(lat2)) + Math.Cos(deg2rad(lat1)) * Math.Cos(deg2rad(lat2)) * Math.Cos(deg2rad(theta));
+            dist = Math.Acos(dist);
+            dist = rad2deg(dist);
+            dist = dist * 60 * 1.1515;
+            dist = dist * 1.609344;
+            dist = dist * 1000;
+            return (dist);
+        }
     }
 }

@@ -32,5 +32,11 @@ namespace HelloService
         [OperationContract]
         string AllParkObjects(string park_name);
 
+        [OperationContract]
+        double distance(double lat1, double lon1, double lat2, double lon2, char unit);
+
+        [OperationContract]
+        string distances(string lat1, string lon1, string park_name);
+
     }
 }

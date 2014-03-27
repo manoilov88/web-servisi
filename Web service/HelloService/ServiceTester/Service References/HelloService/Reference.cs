@@ -35,6 +35,15 @@ namespace ServiceTester.HelloService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IHelloService/AllParkObjects", ReplyAction="http://tempuri.org/IHelloService/AllParkObjectsResponse")]
         string AllParkObjects(string park_name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IHelloService/distance", ReplyAction="http://tempuri.org/IHelloService/distanceResponse")]
+        double distance(double lat1, double lon1, double lat2, double lon2, char unit);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IHelloService/distances", ReplyAction="http://tempuri.org/IHelloService/distancesResponse")]
+        string distances(string lat1, string lon1, string park_name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IHelloService/distancess", ReplyAction="http://tempuri.org/IHelloService/distancessResponse")]
+        string distancess(double lat1, double lon1, string park_name);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -90,6 +99,18 @@ namespace ServiceTester.HelloService {
         
         public string AllParkObjects(string park_name) {
             return base.Channel.AllParkObjects(park_name);
+        }
+        
+        public double distance(double lat1, double lon1, double lat2, double lon2, char unit) {
+            return base.Channel.distance(lat1, lon1, lat2, lon2, unit);
+        }
+        
+        public string distances(string lat1, string lon1, string park_name) {
+            return base.Channel.distances(lat1, lon1, park_name);
+        }
+        
+        public string distancess(double lat1, double lon1, string park_name) {
+            return base.Channel.distancess(lat1, lon1, park_name);
         }
     }
 }
