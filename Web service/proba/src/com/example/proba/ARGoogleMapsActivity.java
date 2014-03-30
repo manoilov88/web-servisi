@@ -16,6 +16,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.location.Location;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,31 +29,56 @@ import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
+import com.google.android.gms.maps.LocationSource.OnLocationChangedListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import android.location.LocationListener;
 
-public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerClickListener, OnClickListener, OnMyLocationChangeListener{
+public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerClickListener, OnClickListener, OnMyLocationChangeListener, LocationListener{
 
-	public static final String NAMESPACE = "http://tempuri.org/";
-	//	public static final String URL = "http://192.168.20.103:8080/HelloService.svc?wsdl";  
-	public static final String URL = "http://192.168.0.100:8080/HelloService.svc?wsdl"; 
-	public static String SOAP_ACTION; 
-	public static String METHOD_NAME;
-	public String all_pins_info = null;
-	public String all_distances = null;
-	public List<Marker> markers;
+  public static final String NAMESPACE = "http://tempuri.org/";
+  //	public static final String URL = "http://192.168.20.103:8080/HelloService.svc?wsdl";  
+  public static final String URL = "http://192.168.0.100:8080/HelloService.svc?wsdl"; 
+  public static String SOAP_ACTION; 
+  public static String METHOD_NAME;
+  public String all_pins_info = null;
+  public String all_distances = null;
+  public List<Marker> markers;
+  public boolean isWifiConn, isMobileConn;
   private GoogleMap map;
   String path;
   String  address;
   String  date;
+  
+  // flag for GPS status
+  boolean isGPSEnabled = false;
+
+  // flag for network status
+  boolean isNetworkEnabled = false;
+
+  boolean canGetLocation = false;
+
+  Location location; // location
+  double latitude; // latitude
+  double longitude; // longitude
+
+  // The minimum distance to change Updates in meters
+  private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
+
+  // The minimum time between updates in milliseconds
+  private static final long MIN_TIME_BW_UPDATES = 1000;//1000 * 60 * 1; // 1 minute
+
+  // Declaring a Location Manager
+  protected LocationManager locationManager;
   
   //XML node keys
   static final String KEY_ITEM = "object"; // parent node
@@ -68,6 +96,15 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
     super.onCreate(savedInstanceState);
     this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	setContentView(R.layout.map);
+	
+	locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+	
+	ConnectivityManager connMgr = (ConnectivityManager) 
+            getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI); 
+    isWifiConn = networkInfo.isConnected();
+    networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+    isMobileConn = networkInfo.isConnected();
 	
 	SOAP_ACTION = "http://tempuri.org/IHelloService/AllParkObjects";
 	METHOD_NAME = "AllParkObjects";
@@ -89,11 +126,11 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
         .getMap();
     
     map.setOnMarkerClickListener(this);
- 
+    
     
     //AddLocation(lat, lon);
-    GPSTracker gpst = new GPSTracker(getApplicationContext());
-	Location l = gpst.getLocation();
+  //  GPSTracker gpst = new GPSTracker(getApplicationContext());
+	Location l = getLocation();
     LatLng user_position = new LatLng(l.getLatitude(), l.getLongitude());
    
  //   LatLng user_position = new LatLng( 43.323752, 21.895280);
@@ -116,6 +153,7 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
       CameraUpdate myLoc = CameraUpdateFactory.newCameraPosition(
               new CameraPosition.Builder().target(new LatLng(lastKnownLocation.getLatitude(),
                       lastKnownLocation.getLongitude())).zoom(18).build());
+      
       map.moveCamera(myLoc);
       map.setOnMyLocationChangeListener(null);
       Toast.makeText(getApplicationContext(), "promena", Toast.LENGTH_SHORT).show();
@@ -133,32 +171,35 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
 		// TODO Auto-generated method stub
 		
 		XMLParser parser = new XMLParser();
-		String xml = all_pins_info.toString();
-		
-		Document doc =  parser.getDomElement(xml);
-		NodeList nl = doc.getElementsByTagName(KEY_ITEM);
-		
-		List<ArchObject> objects = new ArrayList<ArchObject>();
-		Marker marker;
-		markers = new ArrayList<Marker>();
-		for(int i=0; i<nl.getLength(); i++)
+		if(all_pins_info!=null)
 		{
-			 Element e = (Element) nl.item(i);
-			 String name = parser.getValue(e, KEY_NAME); // name child value
-		     double lat = Double.valueOf(parser.getValue(e, KEY_LATITUDE).replace(",", ".")); // cost child value
-		     double lon = Double.valueOf(parser.getValue(e, KEY_LONGITUDE).replace(",", ".")); // description child value
-			 ArchObject arc_object = new ArchObject(name, lat, lon);
-			 objects.add(arc_object);
-			 LatLng position =  new LatLng(lat, lon);
-			 marker = map.addMarker(new MarkerOptions()
-		        .position(position)
-		        .snippet("50m")
-		        .title(name));
-			 markers.add(marker);
+			String xml = all_pins_info.toString();
+			
+			Document doc =  parser.getDomElement(xml);
+			NodeList nl = doc.getElementsByTagName(KEY_ITEM);
+			
+			List<ArchObject> objects = new ArrayList<ArchObject>();
+			Marker marker;
+			markers = new ArrayList<Marker>();
+			for(int i=0; i<nl.getLength(); i++)
+			{
+				 Element e = (Element) nl.item(i);
+				 String name = parser.getValue(e, KEY_NAME); // name child value
+			     double lat = Double.valueOf(parser.getValue(e, KEY_LATITUDE).replace(",", ".")); // cost child value
+			     double lon = Double.valueOf(parser.getValue(e, KEY_LONGITUDE).replace(",", ".")); // description child value
+				 ArchObject arc_object = new ArchObject(name, lat, lon);
+				 objects.add(arc_object);
+				 LatLng position =  new LatLng(lat, lon);
+				 marker = map.addMarker(new MarkerOptions()
+			        .position(position)
+			        .snippet("50m")
+			        .title(name));
+				 markers.add(marker);
+			}
 		}
-		
 	
 	}
+	
 	
 	private Marker getMarkerWithTitle(String title)
 	{
@@ -187,47 +228,52 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
 	
 	private void calculateDistanceToMarker(Location lastKnownLocation)
 	{
-		SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME); 
-		request.addProperty("lat1", String.valueOf(lastKnownLocation.getLatitude()));
-		request.addProperty("lon1", String.valueOf(lastKnownLocation.getLongitude()));
-		request.addProperty("park_name", "Tvrðava");
-		 SoapSerializationEnvelope envelope = 
-	                new SoapSerializationEnvelope(SoapEnvelope.VER11); 
-
-	        envelope .dotNet = true;
-
-	        envelope.setOutputSoapObject(request);
-	        HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
-	        try {
-	            androidHttpTransport.call(SOAP_ACTION, envelope); 
-	           all_distances = envelope.getResponse().toString();
-	          
-	        }
-	        catch (Exception e) {
-	            e.printStackTrace();
-	        }
+		if(isWifiConn || isMobileConn)
+		{
+			SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME); 
+			request.addProperty("lat1", String.valueOf(lastKnownLocation.getLatitude()));
+			request.addProperty("lon1", String.valueOf(lastKnownLocation.getLongitude()));
+			request.addProperty("park_name", "Tvrðava");
+			 SoapSerializationEnvelope envelope = 
+		                new SoapSerializationEnvelope(SoapEnvelope.VER11); 
+	
+		        envelope .dotNet = true;
+	
+		        envelope.setOutputSoapObject(request);
+		        HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+		        try {
+		            androidHttpTransport.call(SOAP_ACTION, envelope); 
+		           all_distances = envelope.getResponse().toString();
+		          
+		        }
+		        catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		}
 	}
 	
 	private void setCalculatedDistance()
 	{
 		XMLParser parser = new XMLParser();
-		String xml = all_distances.toString();
-		Toast.makeText(getApplicationContext(), xml, Toast.LENGTH_LONG).show();
-		
-		Document doc =  parser.getDomElement(xml);
-		NodeList nl = doc.getElementsByTagName(KEY_ITEM_DISTANCE);
-		Marker marker;
-		for(int i=0; i<nl.getLength(); i++)
+		if(all_distances!=null)
 		{
-			 Element e = (Element) nl.item(i);
-			 String name = parser.getValue(e, KEY_NAME_DISTANCE); // name child value
-		     String meters =parser.getValue(e, KEY_METERS).split(",")[0] + " m"; // cost child value
-			 
-		     marker = getMarkerWithTitle(name);
-		     marker.setSnippet(String.valueOf(meters));
-			 
+			String xml = all_distances.toString();
+			Toast.makeText(getApplicationContext(), xml, Toast.LENGTH_LONG).show();
+			
+			Document doc =  parser.getDomElement(xml);
+			NodeList nl = doc.getElementsByTagName(KEY_ITEM_DISTANCE);
+			Marker marker;
+			for(int i=0; i<nl.getLength(); i++)
+			{
+				 Element e = (Element) nl.item(i);
+				 String name = parser.getValue(e, KEY_NAME_DISTANCE); // name child value
+			     String meters =parser.getValue(e, KEY_METERS).split(",")[0] + " m"; // cost child value
+				 
+			     marker = getMarkerWithTitle(name);
+			     marker.setSnippet(String.valueOf(meters));
+				 
+			}
 		}
-		
 	}
 
 	@Override
@@ -303,24 +349,159 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
 	
 	public void getAllPins()
 	{
-		SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME); 
-		request.addProperty("park_name", "Tvrðava");
-		 SoapSerializationEnvelope envelope = 
-	                new SoapSerializationEnvelope(SoapEnvelope.VER11); 
+		if(isWifiConn || isMobileConn)
+		{
+			SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME); 
+			request.addProperty("park_name", "Tvrðava");
+			 SoapSerializationEnvelope envelope = 
+		                new SoapSerializationEnvelope(SoapEnvelope.VER11); 
+	
+		        envelope .dotNet = true;
+	
+		        envelope.setOutputSoapObject(request);
+		        HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+		        try {
+		            androidHttpTransport.call(SOAP_ACTION, envelope); 
+		           all_pins_info = envelope.getResponse().toString();
+		          
+		        }
+		        catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		}
+	}
 
-	        envelope .dotNet = true;
 
-	        envelope.setOutputSoapObject(request);
-	        HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
-	        try {
-	            androidHttpTransport.call(SOAP_ACTION, envelope); 
-	           all_pins_info = envelope.getResponse().toString();
-	          
-	        }
-	        catch (Exception e) {
-	            e.printStackTrace();
-	        }
+	@Override
+	public void onLocationChanged(Location location) {
+		// TODO Auto-generated method stub
+		Toast.makeText(getApplicationContext(), "promena2", Toast.LENGTH_SHORT).show();
+		setDistanceToMarker(location);
+		 CameraUpdate myLoc = CameraUpdateFactory.newCameraPosition(
+	              new CameraPosition.Builder().target(new LatLng(location.getLatitude(),
+	            		  location.getLongitude())).zoom(18).build());
+		 map.moveCamera(myLoc);
+	}
+
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+		
 	}
 	
+	public Location getLocation() 
+	    {
+	        try 
+	        {
+	            locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+	 
+	            isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+	            isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+	//	            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1, 10, this);
+	            boolean isOnline = isOnline();
+	            
+	            // TODO: Daniel - proveri da li je GPS ukljuèen i da li ima signal
+	            
+	            if (!isGPSEnabled && !isNetworkEnabled && isOnline) {
+	            	// povezan na internet ali nema pravo pristupa lokacijama
+	            	// GPS iskljuèen
+	            	
+	            	throw new GetLocationException("Allow getting location through network!");
+	            }
+	            else if (!isGPSEnabled && !isNetworkEnabled) 
+	            {
+	               Toast.makeText(this.getApplicationContext(), "Please turn on GPS or Data", Toast.LENGTH_SHORT).show();
+	            }
+	            else
+	            {
+	                this.canGetLocation = true;
+	
+	                // if GPS Enabled get lat/long using GPS Services first
+	                if (isGPSEnabled) {
+	                		locationManager.requestLocationUpdates(
+	                				LocationManager.GPS_PROVIDER,
+	                				MIN_TIME_BW_UPDATES,
+	                				MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+	                		
+	                		if (locationManager != null) {
+	                			location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+	                			if (location != null) 
+	                			{
+	                				latitude = location.getLatitude();
+	                				longitude = location.getLongitude();
+	                			}
+	                		}
+	                }
+	                
+	                // Get location from Network Provider if GPS is not available
+	                if (isNetworkEnabled)
+	                {
+	                	if (location == null) 
+	                	{
+		                    locationManager.requestLocationUpdates(
+		                            LocationManager.NETWORK_PROVIDER,
+		                            MIN_TIME_BW_UPDATES,
+		                            MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+		                    
+		                    if (locationManager != null) 
+		                    {
+		                        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		                        if (location != null) 
+		                        {
+		                            latitude = location.getLatitude();
+		                            longitude = location.getLongitude();
+		                        }
+		                    }
+	                	}
+	                }
+	            }
+	            return location;
+	        }
+	        catch (GetLocationException e) {
+	        	Toast.makeText(this, "Allow getting location through network!", Toast.LENGTH_SHORT).show();
+	        	e.printStackTrace();
+	        }
+	        catch (Exception e)
+	        {
+	        	Toast.makeText(this, "Error in getting location." + e.getMessage(), Toast.LENGTH_SHORT).show();
+	            e.printStackTrace();
+	        }
+	        
+	        return null;
+	    }
+	 private boolean isOnline() {
+	        ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+	        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	        return netInfo != null && netInfo.isConnectedOrConnecting();
+	    }
+	    
+		
+		public boolean isNetworkAvailable(Context context) {
+			try {
+				ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+				NetworkInfo netInfo = cm.getActiveNetworkInfo();
+				if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+				    return true;
+				}
+				return false;
+			} catch (Exception e) {
+				return false;
+			}
+		}
 
 } 

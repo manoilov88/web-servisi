@@ -84,9 +84,9 @@ public class MainActivity extends Activity implements OnClickListener{
 		        //DO SOMETHING! {RUN SOME FUNCTION ... DO CHECKS... ETC}
 		    	
 		    	GPSTracker gpst = new GPSTracker(getApplicationContext());
-		    	Location l = gpst.getLocation();
+		    	//Location l = gpst.getLocation();
 //		    	String add = gpst.getAddress(l);
-		    	Toast.makeText(getApplicationContext(), String.valueOf(l.getLatitude()), Toast.LENGTH_SHORT).show();
+		    //	Toast.makeText(getApplicationContext(), String.valueOf(l.getLatitude()), Toast.LENGTH_SHORT).show();
 //		    	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com"));
 //		    	startActivity(browserIntent);
 		    	

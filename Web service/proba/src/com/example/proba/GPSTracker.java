@@ -13,7 +13,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
 
 import android.app.AlertDialog;
 import android.app.Service;
@@ -55,7 +59,7 @@ public class GPSTracker  extends Service implements LocationListener
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
  
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 0;//1000 * 60 * 1; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 1000;//1000 * 60 * 1; // 1 minute
  
     // Declaring a Location Manager
     protected LocationManager locationManager;
@@ -190,7 +194,7 @@ public class GPSTracker  extends Service implements LocationListener
     @Override
     public void onLocationChanged(Location location)
     {
-    	Toast.makeText(getApplicationContext(), String.valueOf(location.getLatitude()), Toast.LENGTH_SHORT).show();
+    	//Toast.makeText(mContext, String.valueOf(location.getLatitude()), Toast.LENGTH_SHORT).show();
     }
     
  
@@ -429,4 +433,5 @@ public class GPSTracker  extends Service implements LocationListener
 			return false;
 		}
 	}
+
 }
