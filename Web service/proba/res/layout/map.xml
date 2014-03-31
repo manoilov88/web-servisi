@@ -40,7 +40,7 @@
                 <ImageView 
                    	android:layout_width="wrap_content"
 		    		android:layout_height="wrap_content"
-		    		android:background="@drawable/audionews_gray"/>
+		    		android:background="@drawable/radaricon"/>
                 
    			 </LinearLayout>
          
@@ -55,7 +55,7 @@
                <ImageView 
                    	android:layout_width="wrap_content"
 		    		android:layout_height="wrap_content"
-		    		android:background="@drawable/map"/>
+		    		android:background="@drawable/mapicon"/>
                
     		</LinearLayout>
     		

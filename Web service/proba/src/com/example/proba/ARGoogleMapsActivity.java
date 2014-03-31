@@ -156,7 +156,7 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
       
       map.moveCamera(myLoc);
       map.setOnMyLocationChangeListener(null);
-      Toast.makeText(getApplicationContext(), "promena", Toast.LENGTH_SHORT).show();
+//      Toast.makeText(getApplicationContext(), "promena", Toast.LENGTH_SHORT).show();
       setDistanceToMarker(lastKnownLocation);
   }
  
@@ -258,7 +258,7 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
 		if(all_distances!=null)
 		{
 			String xml = all_distances.toString();
-			Toast.makeText(getApplicationContext(), xml, Toast.LENGTH_LONG).show();
+//			Toast.makeText(getApplicationContext(), xml, Toast.LENGTH_LONG).show();
 			
 			Document doc =  parser.getDomElement(xml);
 			NodeList nl = doc.getElementsByTagName(KEY_ITEM_DISTANCE);
@@ -375,7 +375,7 @@ public class ARGoogleMapsActivity extends FragmentActivity implements OnMarkerCl
 	@Override
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
-		Toast.makeText(getApplicationContext(), "promena2", Toast.LENGTH_SHORT).show();
+//		Toast.makeText(getApplicationContext(), "promena2", Toast.LENGTH_SHORT).show();
 		setDistanceToMarker(location);
 		 CameraUpdate myLoc = CameraUpdateFactory.newCameraPosition(
 	              new CameraPosition.Builder().target(new LatLng(location.getLatitude(),

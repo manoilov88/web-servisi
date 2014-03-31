@@ -225,7 +225,9 @@ containing a value of this type.
         public static final int ic_plusone_tall_off_client=0x7f020020;
         public static final int map=0x7f020021;
         public static final int map_gray=0x7f020022;
-        public static final int narandzasto=0x7f020023;
+        public static final int mapicon=0x7f020023;
+        public static final int narandzasto=0x7f020024;
+        public static final int radaricon=0x7f020025;
     }
     public static final class id {
         public static final int action_settings=0x7f05000f;
